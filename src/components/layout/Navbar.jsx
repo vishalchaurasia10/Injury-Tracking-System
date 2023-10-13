@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
-import { FiShoppingCart } from 'react-icons/fi';
+import React, { useEffect, useState } from 'react'
 import { LuSearch } from 'react-icons/lu';
 import Link from 'next/link'
-// import Sidebar from './Sidebar';
 import { motion } from 'framer-motion'
 import { navbarData } from '@/utils/constants';
 import Button from '../elements/Button';
+import Sidebar from './Sidebar';
 
 const Navbar = () => {
 
@@ -14,6 +13,23 @@ const Navbar = () => {
     const toggle = () => {
         setExpandState(!expandState)
     }
+
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+
+        function checkScreenSize() {
+            setIsMobile(window.innerWidth < 768); // Adjust the breakpoint as needed
+        }
+
+        window.addEventListener('resize', checkScreenSize);
+        checkScreenSize();
+
+        return () => {
+            window.removeEventListener('resize', checkScreenSize);
+        };
+    }, []);
+
 
     return (
         <>
@@ -48,11 +64,6 @@ const Navbar = () => {
                         <li className={`text-2xl mr-2`}>
                             <LuSearch />
                         </li>
-                        <li className='mr-1'>
-                            <Link href='/cart' className={`text-2xl`}>
-                                <FiShoppingCart />
-                            </Link>
-                        </li>
                         <li>
                             <div className="hamburger mx-2 lg:hidden flex flex-col space-y-1" onClick={toggle}>
                                 <motion.div
@@ -77,7 +88,20 @@ const Navbar = () => {
                         </li>
                     </ul>
                 </nav>
-                {/* <Sidebar /> */}
+                {expandState &&
+                    <div className={`wrapper lg:hidden overflow-hidden ${expandState ? 'backdrop-blur-md' : 'hidden'} transition-all duration-300 fixed z-30`}>
+                        <motion.div
+                            initial={{ x: '100%', opacity: 0 }}
+                            animate={{
+                                x: isMobile ? (expandState ? '40%' : '100%') : (expandState ? '60%' : '100%'),
+                                opacity: 1,
+                            }}
+                            transition={{ duration: 0.3 }}
+                            className='pt-24 px-10 bg-[#e0e0e0] h-screen w-screen'>
+                            <Sidebar />
+                        </motion.div>
+                    </div>
+                }
             </div>
         </>
     )
