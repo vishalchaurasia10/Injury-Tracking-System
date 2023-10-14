@@ -90,7 +90,7 @@ const Navbar = () => {
                     </ul>
                 </nav>
                 {expandState &&
-                    <div className={`wrapper lg:hidden overflow-hidden ${expandState ? 'backdrop-blur-md' : 'hidden'} transition-all duration-300 fixed z-30`}>
+                    <div className={`wrapper lg:hidden overflow-hidden ${expandState ? 'backdrop-blur-md' : 'hidden'} transition-all duration-300 fixed z-40`}>
                         <motion.div
                             initial={{ x: '100%', opacity: 0 }}
                             animate={{
