@@ -1,21 +1,23 @@
 import { jost } from '@/utils/fonts';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { AiFillEdit, AiFillLeftCircle, AiFillRightCircle } from 'react-icons/ai';
 import { BsFillCloudUploadFill } from 'react-icons/bs';
 import Annotate from './Annotate';
+import reportContext from '@/context/report/reportContext';
 
 const Uploads = () => {
     const [reportDetails, setReportDetails] = useState({
         name: '',
         dateTime: '',
         file: null,
-        locations: null,
+        description: [],
     });
     const [imagePreviews, setImagePreviews] = useState([]);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [showAnnotation, setShowAnnotation] = useState(false);
     const [annotations, setAnnotations] = useState([]); // Store annotations for all images
+    const { documentUpload } = useContext(reportContext)
 
     const handleFileUpload = (e) => {
         const selectedFiles = e.target.files;
@@ -47,6 +49,7 @@ const Uploads = () => {
         const updatedAnnotations = [...annotations];
         updatedAnnotations[imageIndex] = imageAnnotations;
         setAnnotations(updatedAnnotations);
+        setReportDetails({ ...reportDetails, description: updatedAnnotations });
     };
 
     // Navigate to the previous image with looping
@@ -71,20 +74,31 @@ const Uploads = () => {
         setShowAnnotation(!showAnnotation);
     }
 
-    const saveAnnotationsToDatabase = () => {
-        // Here, you can save the 'annotations' state to your database.
-        // Each element in 'annotations' corresponds to annotations for an image.
+    const saveAnnotationsToDatabase = async () => {
+        console.log(reportDetails)
+        const id = await documentUpload(reportDetails)
+        if (id) {
+            setReportDetails({
+                name: '',
+                dateTime: '',
+                file: null,
+                description: [],
+            })
+            setImagePreviews([])
+            setAnnotations([])
+            setCurrentImageIndex(0)
+        }
     }
 
-    useEffect(() => {
-        console.log(annotations);
-    }, [annotations]);
+    const handleChange = (e) => {
+        setReportDetails({ ...reportDetails, [e.target.name]: e.target.value });
+    }
 
     return (
         <>
             <div className={`min-h-screen ${jost.className} relative pt-20 md:pt-24 pb-10 xl:pt-16 xl:pb-0 w-full flex items-center justify-center bg-cover bg-center bg-[url("https://img.freepik.com/premium-photo/hand-doctor-reassuring-her-female-patient_33855-13.jpg?w=1060")]`}>
                 <div className='absolute h-full inset-0 bg-gradient-to-l from-transparent via-opacity-50 to-black'></div>
-                <div className="uploadContent relative z-20 w-full lg:mx-40 flex items-center justify-center space-x-8">
+                <div className="uploadContent relative z-20 w-full lg:mx-40 flex items-center justify-center space-x-8 px-2">
                     <div className='uploadForm w-full bg-[rgba(255,255,255,0.1)] text-white flex flex-col lg:flex-row space-y-8 lg:space-y-0 rounded-xl p-4 md:p-8 backdrop-blur-2xl shadow-2xl border-[rgba(255,255,255,0.1)]'>
                         <div className="images relative flex items-center justify-center lg:order-2 lg:ml-8 lg:w-1/2 rounded-xl">
                             {!imagePreviews.length ? (
@@ -127,6 +141,8 @@ const Uploads = () => {
                                 placeholder='Enter the name'
                                 name='name'
                                 id='name'
+                                value={reportDetails.name}
+                                onChange={handleChange}
                             />
                             <input
                                 required
@@ -135,6 +151,8 @@ const Uploads = () => {
                                 placeholder='Enter the name'
                                 name='dateTime'
                                 id='dateTime'
+                                value={reportDetails.dateTime}
+                                onChange={handleChange}
                             />
                             <button className="btn btn-active" onClick={saveAnnotationsToDatabase}>
                                 Upload
