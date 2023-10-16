@@ -1,8 +1,11 @@
 import { toast, Toaster } from "react-hot-toast";
 import ReportContext from "./reportContext";
-import { Account, Client, Databases, ID, Storage } from "appwrite";
+import { Account, Client, Databases, ID, Query, Storage } from "appwrite";
+import { useState } from "react";
 
 const ReportState = (props) => {
+
+    const [reportData, setReportData] = useState([]);
 
     const client = new Client()
         .setEndpoint('https://cloud.appwrite.io/v1')
@@ -30,7 +33,6 @@ const ReportState = (props) => {
             const uploadedFileUrls = uploadedFiles.map((fileId) =>
                 (storage.getFileView(process.env.NEXT_PUBLIC_BUCKET_ID, fileId)).href
             );
-            console.log(uploadedFileUrls);
             return uploadedFileUrls;
         } catch (error) {
             toast.error(error.message);
@@ -70,12 +72,26 @@ const ReportState = (props) => {
         }
     };
 
+    const getReports = async () => {
+        try {
+            const userId = (await account.get()).$id;
+            const res = await databases.listDocuments(
+                process.env.NEXT_PUBLIC_DATABASE_ID,
+                process.env.NEXT_PUBLIC_REPORTS_COLLECTION_ID,
+                [Query.equal('userId', userId)]
+            );
+            setReportData(res.documents);
+            return res.documents;
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
 
     return (
         <>
             <Toaster />
             <ReportContext.Provider value={{
-                fileUpload, documentUpload
+                fileUpload, documentUpload, getReports, reportData
             }}>
                 {props.children}
             </ReportContext.Provider>
