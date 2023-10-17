@@ -33,15 +33,15 @@ const Display = ({ reportData, toggleDisplay }) => {
     };
 
     return (
-        <div className='fixed top-0 left-0 min-h-screen w-full flex flex-col lg:flex-row items-center justify-center bg-white z-30'>
+        <div className='absolute top-0 left-0 w-full flex flex-col lg:flex-row items-center justify-center bg-white z-30'>
             <AiFillCloseCircle
                 onClick={toggleDisplay}
                 className='absolute top-16 right-10 text-red-500 text-5xl z-40 hover:scale-110 transition-all duration-300 cursor-pointer'
             />
             {description.length &&
                 <>
-                    <div className="image h-screen lg:w-1/2 flex flex-col items-center justify-center relative">
-                        <div style={{ position: 'relative' }}>
+                    <div className="image min-h-screen lg:w-1/2 flex flex-col items-center justify-center relative">
+                        <div className='relative pt-12'>
                             <div
                                 style={{ width: '100%', position: 'relative' }}
                             >
@@ -93,7 +93,7 @@ const Display = ({ reportData, toggleDisplay }) => {
                     <div className="content lg:w-1/2 py-20 flex flex-col items-center justify-center space-y-2">
                         <p className="text-2xl font-bold capitalize">Reporter:{reportData.name}</p>
                         <p>Date: {(formatDateTime(reportData.dateTime)).date} | {(formatDateTime(reportData.dateTime)).time}</p>
-                        <div className="textarea flex flex-col py-5 space-y-4 w-1/2">
+                        <div className="textarea flex flex-col py-5 space-y-4 w-1/2 h-96 overflow-y-scroll">
                             {description[currentIndex].map((item, index) => (
                                 <div className='flex items-center justify-center space-x-2 w-full' key={index}>
                                     <label>{index + 1}:</label>

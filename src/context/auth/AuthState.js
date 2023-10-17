@@ -2,9 +2,11 @@ import { Toaster, toast } from "react-hot-toast";
 import AuthContext from "./authContext";
 import { Client, Account, ID } from "appwrite";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 const AuthState = (props) => {
 
+    const [user, setUser] = useState(null); // [1
     const router = useRouter();
     const client = new Client()
         .setEndpoint('https://cloud.appwrite.io/v1') // Your API Endpoint
@@ -48,6 +50,7 @@ const AuthState = (props) => {
                 return
             } else {
                 toast.success('Logged in successfully');
+                setUser({ name: verified.name, email: verified.email });
             }
             return res.$id;
         } catch (error) {
@@ -79,11 +82,35 @@ const AuthState = (props) => {
         }
     }
 
+    const checkLoggedIn = async () => {
+        try {
+            const res = await account.get();
+            if (res.$id) {
+                setUser({ name: res.name, email: res.email });
+                return true;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const logout = async () => {
+        try {
+            await account.deleteSession('current');
+            localStorage.clear();
+            router.push('/sign-in');
+            setUser(null);
+        } catch (error) {
+            console.error(error);
+            toast.error(error.message);
+        }
+    }
+
     return (
         <>
             <Toaster />
             <AuthContext.Provider value={{
-                signup, signin, resetPassword, sendRecoveryLink
+                signup, signin, resetPassword, sendRecoveryLink, checkLoggedIn, user, logout
             }}>
                 {props.children}
             </AuthContext.Provider>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { LuSearch } from 'react-icons/lu';
 import Link from 'next/link'
 import { motion } from 'framer-motion'
@@ -6,10 +6,14 @@ import { navbarData } from '@/utils/constants';
 import Button from '../elements/Button';
 import Sidebar from './Sidebar';
 import { jost } from '@/utils/fonts';
+import authContext from '@/context/auth/authContext';
+import { FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
 
 const Navbar = () => {
 
     const [expandState, setExpandState] = useState(false)
+    const [userExpand, setUserExpand] = useState(false)
+    const { checkLoggedIn, user, logout } = useContext(authContext)
 
     const toggle = () => {
         setExpandState(!expandState)
@@ -31,6 +35,22 @@ const Navbar = () => {
         };
     }, []);
 
+    useEffect(() => {
+        checkLoggedIn()
+    }, [])
+
+    useEffect(() => {
+        console.log(user)
+    }, [user])
+
+    const showUserDetails = () => {
+        setUserExpand(!userExpand)
+    }
+
+    const signOut = () => {
+        logout()
+        setUserExpand(false)
+    }
 
     return (
         <>
@@ -53,18 +73,22 @@ const Navbar = () => {
                         <li>
                             <Link href='/' className='text-3xl font-bold text-black'>
                                 {/* <Image className='' src='/images/logo.png' height={200} width={200} alt='logo' /> */}
-                                Logo
+                                ReportEase
                             </Link>
                         </li>
                     </ul>
 
                     <ul className='right w-3/4 lg:w-1/3 flex items-center justify-end md:space-x-2 lg:space-x-3'>
-                        <li className='mr-2'>
-                            <Button text='Sign Up' path='/sign-up' />
-                        </li>
                         <li className={`text-2xl mr-2`}>
                             <LuSearch />
                         </li>
+                        {user !== null ?
+                            <li onClick={showUserDetails} className='mr-2 cursor-pointer'>
+                                <FaUserCircle className='text-3xl' />
+                            </li> :
+                            <li className='mr-2'>
+                                <Button text='Sign Up' path='/sign-up' />
+                            </li>}
                         <li>
                             <div className="hamburger mx-2 lg:hidden flex flex-col space-y-1" onClick={toggle}>
                                 <motion.div
@@ -89,6 +113,18 @@ const Navbar = () => {
                         </li>
                     </ul>
                 </nav>
+                {userExpand &&
+                    <div className={`credentials ${userExpand ? 'opacity-100' : 'opacity-0 scale-0'} transition-all duration-300 py-4 pb-6 bg-pureWhite text-[#565656] bg-white font-jost rounded-2xl shadow-2xl shadow-black absolute right-0 top-14 text-sm tracking-wide space-y-1 z-40`}>
+                        <div className="name space-y-1 py-2 px-10">
+                            <p className='font-bold text-black -mb-1 capitalize' title={user.name} >{user.name}</p>
+                            <p className='text-black text-sm font-light' title={user.email}>{user.email}</p>
+                        </div>
+                        <div onClick={signOut} title='Sign-out' className="signout cursor-pointer py-2 px-10 hover:bg-[#f5f5f5]">
+                            <FaSignOutAlt className='text-lg inline mr-2' />
+                            <p className='inline'>Sign Out</p>
+                        </div>
+                    </div>
+                }
                 {expandState &&
                     <div className={`wrapper lg:hidden overflow-hidden ${expandState ? 'backdrop-blur-md' : 'hidden'} transition-all duration-300 fixed z-40`}>
                         <motion.div

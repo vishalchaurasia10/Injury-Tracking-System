@@ -24,11 +24,11 @@ const Reports = () => {
     };
 
     return (
-        <div className={`mainWrapper w-full ${jost.className} pt-10 px-2 lg:px-20`}>
+        <div className={`mainWrapper relative overflow-x-hidden min-h-screen w-full ${jost.className} pt-10 px-2 lg:px-20`}>
             <div className="heading">
                 <h1 className='text-5xl lg:text-6xl font-bold py-10'>All Reports</h1>
             </div>
-            <div className="reports relative flex flex-col lg:flex-row space-y-4 lg:space-x-4 lg:space-y-0">
+            <div className="reports flex flex-col lg:flex-row space-y-4 lg:space-x-4 lg:space-y-0">
                 {reportData.map((report, index) => {
                     const isDisplayed = !!displayedReports[report.$id];
 
