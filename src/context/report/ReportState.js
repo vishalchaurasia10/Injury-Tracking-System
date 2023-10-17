@@ -110,11 +110,31 @@ const ReportState = (props) => {
         }
     }
 
+    const updateReport = async (reportId, reportDetail) => {
+        try {
+            const res = await databases.updateDocument(
+                process.env.NEXT_PUBLIC_DATABASE_ID,
+                process.env.NEXT_PUBLIC_REPORTS_COLLECTION_ID,
+                reportId,
+                {
+                    name: reportDetail.name,
+                    dateTime: reportDetail.dateTime,
+                    description: reportDetail.description,
+                }
+            );
+            if (res.$id) {
+                toast.success("Report updated successfully");
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+
     return (
         <>
             <Toaster />
             <ReportContext.Provider value={{
-                fileUpload, documentUpload, getReports, reportData, deleteReport
+                fileUpload, documentUpload, getReports, reportData, deleteReport, updateReport
             }}>
                 {props.children}
             </ReportContext.Provider>
