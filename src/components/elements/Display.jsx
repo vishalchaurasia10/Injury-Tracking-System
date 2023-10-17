@@ -87,7 +87,7 @@ const Display = ({ reportData, toggleDisplay, edit, setEdit }) => {
             ...localReportData,
             description: updatedDescription,
         };
-        updateReport(localReportData.$id,updatedReportData)
+        updateReport(localReportData.$id, updatedReportData)
     }
 
 
@@ -104,6 +104,7 @@ const Display = ({ reportData, toggleDisplay, edit, setEdit }) => {
                             <div
                                 style={{ width: '100%', position: 'relative' }}
                                 onClick={(e) => {
+                                    if (!edit) return; // Don't add circles if not in edit mode
                                     const rect = e.currentTarget.getBoundingClientRect();
                                     const x = (e.nativeEvent.offsetX / rect.width) * 100;
                                     const y = (e.nativeEvent.offsetY / rect.height) * 100;
