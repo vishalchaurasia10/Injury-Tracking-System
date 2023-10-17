@@ -41,9 +41,7 @@ const ReportState = (props) => {
 
     const documentUpload = async (reportDetail) => {
         const imageUrl = await fileUpload(reportDetail.file);
-        console.log(reportDetail.description)
         let newDescription = reportDetail.description.map(arr => JSON.stringify(arr));
-        console.log(newDescription)
         try {
             const user = await account.get();
             if (user && user.$id) {
@@ -65,7 +63,7 @@ const ReportState = (props) => {
                     toast.success("Report uploaded successfully");
                 }
             }
-            return res.$id;
+            return "success"
         } catch (error) {
             console.log(error);
             toast.error(error.message);

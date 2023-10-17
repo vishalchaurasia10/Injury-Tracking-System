@@ -75,9 +75,8 @@ const Uploads = () => {
     }
 
     const saveAnnotationsToDatabase = async () => {
-        console.log(reportDetails)
-        const id = await documentUpload(reportDetails)
-        if (id) {
+        const response = await documentUpload(reportDetails)
+        if (response === 'success') {
             setReportDetails({
                 name: '',
                 dateTime: '',
