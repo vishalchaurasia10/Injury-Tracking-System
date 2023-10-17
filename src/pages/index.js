@@ -5,15 +5,17 @@ import { useContext, useEffect } from "react";
 
 export default function Home() {
   const { user } = useContext(authContext);
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     if (!user) {
-      router.push('/sign-in')
+      router.push('/sign-in');
     }
-  }, [])
+  }, [user]);
 
   return (
-    <Uploads />
-  )
+    <div>
+      {user && <Uploads />}
+    </div>
+  );
 }

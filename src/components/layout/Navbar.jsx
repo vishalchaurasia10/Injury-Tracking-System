@@ -55,7 +55,7 @@ const Navbar = () => {
     return (
         <>
             <div className={`${jost.className} wrapper overflow-hidden w-full`}>
-                <nav className={`flex w-screen fixed top-0 left-0 z-50 backdrop-blur-2xl bg-[rgba(255,255,255,0.3)] items-center  justify-center pl-4 pr-2 py-2 md:pl-20 md:pr-8 lg:px-20 xl:px-28 `}>
+                <nav className={`flex w-screen fixed top-0 left-0 z-50 backdrop-blur-2xl bg-[rgba(255,255,255,0.3)] items-center  justify-center pl-4 pr-2 py-3 md:pl-20 md:pr-8 lg:px-20 xl:px-28 shadow-2xl shadow-black`}>
                     <ul className='left hidden text-lg lg:w-1/3 lg:flex items-center text-black justify-start space-x-8'>
                         {navbarData.map((item, index) => {
                             return (
@@ -114,7 +114,7 @@ const Navbar = () => {
                     </ul>
                 </nav>
                 {userExpand &&
-                    <div className={`credentials ${userExpand ? 'opacity-100' : 'opacity-0 scale-0'} transition-all duration-300 py-4 pb-6 bg-pureWhite text-[#565656] bg-white font-jost rounded-2xl shadow-2xl shadow-black absolute right-0 top-14 text-sm tracking-wide space-y-1 z-40`}>
+                    <div className={`credentials ${userExpand ? 'opacity-100' : 'opacity-0 scale-0'} transition-all duration-300 py-4 pb-6 bg-pureWhite text-[#565656] bg-white font-jost rounded-2xl shadow-2xl shadow-black absolute right-0 top-14 text-sm tracking-wide space-y-1 z-50`}>
                         <div className="name space-y-1 py-2 px-10">
                             <p className='font-bold text-black -mb-1 capitalize' title={user.name} >{user.name}</p>
                             <p className='text-black text-sm font-light' title={user.email}>{user.email}</p>

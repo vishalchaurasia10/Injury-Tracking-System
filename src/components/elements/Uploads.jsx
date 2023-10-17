@@ -96,14 +96,15 @@ const Uploads = () => {
     return (
         <>
             <div className={`min-h-screen ${jost.className} relative pt-20 md:pt-24 pb-10 xl:pt-16 xl:pb-0 w-full flex items-center justify-center bg-cover bg-center bg-[url("https://img.freepik.com/premium-photo/hand-doctor-reassuring-her-female-patient_33855-13.jpg?w=1060")]`}>
-                <div className='absolute h-full inset-0 bg-gradient-to-l from-transparent via-opacity-50 to-black'></div>
+                {/* <div className='absolute h-full inset-0 bg-gradient-to-l from-transparent via-opacity-50 to-black'></div> */}
                 <div className="uploadContent relative z-20 w-full lg:mx-40 flex items-center justify-center space-x-8 px-2">
-                    <div className='uploadForm w-full bg-[rgba(255,255,255,0.1)] text-white flex flex-col lg:flex-row space-y-8 lg:space-y-0 rounded-xl p-4 md:p-8 backdrop-blur-2xl shadow-2xl border-[rgba(255,255,255,0.1)]'>
+                    <div className='uploadForm w-full bg-[rgba(255,255,255,0.1)] text-gray-700 flex flex-col lg:flex-row space-y-8 lg:space-y-0 rounded-xl p-4 md:p-8 backdrop-blur-2xl shadow-2xl border-[rgba(255,255,255,0.1)]'>
                         <div className="images relative flex items-center justify-center lg:order-2 lg:ml-8 lg:w-1/2 rounded-xl">
                             {!imagePreviews.length ? (
-                                <label className='w-full cursor-pointer flex justify-center' htmlFor="uploadFile">
+                                <label className='w-full cursor-pointer flex flex-col items-center justify-center' htmlFor="uploadFile">
                                     <BsFillCloudUploadFill className='text-[20rem] text-[rgba(255,255,255,0.5)]' />
                                     <input onChange={handleFileUpload} className="hidden" type="file" name="uploadFile" id="uploadFile" multiple />
+                                    <p>Click on the above image to upload</p>
                                 </label>
                             ) : (
                                 <div className="relative carousel w-full h-80 rounded-box">
@@ -131,11 +132,11 @@ const Uploads = () => {
                                     <AiFillEdit className='text-2xl' />
                                 </button>}
                         </div>
-                        <div className='uploadForm lg:order-1 lg:w-1/2 bg-[rgba(255,255,255,0.1)] text-white flex flex-col rounded-xl space-y-8 p-8 backdrop-blur-2xl shadow-2xl border-[rgba(255,255,255,0.1)]'>
+                        <div className='uploadForm lg:order-1 lg:w-1/2 bg-[rgba(255,255,255,0.1)] text-gray-700 flex flex-col rounded-xl space-y-8 p-8 backdrop-blur-2xl shadow-2xl border-[rgba(255,255,255,0.1)]'>
                             <h1 className='font-bold text-6xl'>Upload Product</h1>
                             <input
                                 required
-                                className='outline-none placeholder:text-white bg-transparent border-b p-2 border-[rgba(255,255,255,0.5)]'
+                                className='outline-none placeholder:text-gray-700 bg-transparent border-b p-2 border-gray-700'
                                 type='text'
                                 placeholder='Enter the name'
                                 name='name'
@@ -145,7 +146,7 @@ const Uploads = () => {
                             />
                             <input
                                 required
-                                className='outline-none placeholder:text-white bg-transparent border-b p-2 border-[rgba(255,255,255,0.5)]'
+                                className='outline-none placeholder:text-gray-700 bg-transparent border-b p-2 border-gray-700'
                                 type='datetime-local'
                                 placeholder='Enter the name'
                                 name='dateTime'
@@ -153,7 +154,7 @@ const Uploads = () => {
                                 value={reportDetails.dateTime}
                                 onChange={handleChange}
                             />
-                            <button className="btn btn-active" onClick={saveAnnotationsToDatabase}>
+                            <button className="btn btn-neutral" onClick={saveAnnotationsToDatabase}>
                                 Upload
                             </button>
                         </div>

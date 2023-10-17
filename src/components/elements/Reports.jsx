@@ -4,6 +4,7 @@ import { jost } from '@/utils/fonts'
 import Display from './Display'
 import { formatDateTime } from '@/utils/commonFunctions'
 import { FaTrashAlt } from 'react-icons/fa'
+import { AiTwotoneEdit } from 'react-icons/ai'
 
 const Reports = () => {
     const { getReports, reportData, deleteReport } = useContext(reportContext)
@@ -24,7 +25,7 @@ const Reports = () => {
     };
 
     return (
-        <div className={`mainWrapper relative overflow-x-hidden min-h-screen w-full ${jost.className} pt-10 px-2 lg:px-20`}>
+        <div className={`mainWrapper relative overflow-x-hidden min-h-screen w-full ${jost.className} pt-16 px-2 lg:px-20`}>
             <div className="heading">
                 <h1 className='text-5xl lg:text-6xl font-bold py-10'>All Reports</h1>
             </div>
@@ -44,7 +45,8 @@ const Reports = () => {
                                         <button onClick={() => toggleDisplay(report.$id)} className="btn btn-neutral">View Report</button>
                                     </div>
                                 </div>
-                                <FaTrashAlt onClick={()=> deleteReport(report.$id)} className='absolute right-3 top-3 rounded-lg bg-black p-2 text-4xl text-red-500 cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-white' />
+                                <FaTrashAlt title='Delete' onClick={()=> deleteReport(report.$id)} className='absolute right-3 top-3 rounded-lg bg-black p-2 text-4xl text-red-500 cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-2xl hover:shadow-black' />
+                                <AiTwotoneEdit title='Edit' className='absolute right-3 top-14 rounded-lg bg-white p-2 text-4xl text-red-500 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-black' />
                             </div>
                             {isDisplayed && <Display toggleDisplay={() => toggleDisplay(report.$id)} reportData={report} />}
                         </>
