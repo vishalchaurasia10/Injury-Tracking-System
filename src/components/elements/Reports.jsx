@@ -3,9 +3,10 @@ import reportContext from '@/context/report/reportContext'
 import { jost } from '@/utils/fonts'
 import Display from './Display'
 import { formatDateTime } from '@/utils/commonFunctions'
+import { FaTrashAlt } from 'react-icons/fa'
 
 const Reports = () => {
-    const { getReports, reportData } = useContext(reportContext)
+    const { getReports, reportData, deleteReport } = useContext(reportContext)
     const [displayedReports, setDisplayedReports] = useState({});
     useEffect(() => {
         getReports()
@@ -43,6 +44,7 @@ const Reports = () => {
                                         <button onClick={() => toggleDisplay(report.$id)} className="btn btn-neutral">View Report</button>
                                     </div>
                                 </div>
+                                <FaTrashAlt onClick={()=> deleteReport(report.$id)} className='absolute right-3 top-3 rounded-lg bg-black p-2 text-4xl text-red-500 cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-white' />
                             </div>
                             {isDisplayed && <Display toggleDisplay={() => toggleDisplay(report.$id)} reportData={report} />}
                         </>
