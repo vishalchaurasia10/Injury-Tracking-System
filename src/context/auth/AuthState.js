@@ -106,11 +106,23 @@ const AuthState = (props) => {
         }
     }
 
+    const googleAuth = async () => {
+        try {
+            const res = await account.createOAuth2Session('google', 'http://localhost:3000/', 'http://localhost:3000/sign-in');
+            if (res) {
+                toast.success('Logged in successfully');
+                setUser({ name: res.name, email: res.email });
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+
     return (
         <>
             <Toaster />
             <AuthContext.Provider value={{
-                signup, signin, resetPassword, sendRecoveryLink, checkLoggedIn, user, logout
+                signup, signin, resetPassword, sendRecoveryLink, checkLoggedIn, user, logout, googleAuth
             }}>
                 {props.children}
             </AuthContext.Provider>
