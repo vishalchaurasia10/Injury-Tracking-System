@@ -7,6 +7,7 @@ const ReportState = (props) => {
 
     const [reportData, setReportData] = useState([]);
     const [copyReportData, setCopyReportData] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const client = new Client()
         .setEndpoint('https://cloud.appwrite.io/v1')
@@ -41,6 +42,7 @@ const ReportState = (props) => {
     };
 
     const documentUpload = async (reportDetail) => {
+        setLoading(true);
         const imageUrl = await fileUpload(reportDetail.file);
         let newDescription = reportDetail.description.map(arr => JSON.stringify(arr));
         try {
@@ -64,15 +66,18 @@ const ReportState = (props) => {
                     toast.success("Report uploaded successfully");
                 }
             }
+            setLoading(false);
             return "success"
         } catch (error) {
             console.log(error);
             toast.error(error.message);
+            setLoading(false);
         }
     };
 
     const getReports = async () => {
         try {
+            setLoading(true);
             const userId = (await account.get()).$id;
             const res = await databases.listDocuments(
                 process.env.NEXT_PUBLIC_DATABASE_ID,
@@ -81,9 +86,11 @@ const ReportState = (props) => {
             );
             setReportData(res.documents);
             setCopyReportData(res.documents);
+            setLoading(false);
             return res.documents;
         } catch (error) {
             toast.error(error.message);
+            setLoading(false);
         }
     }
 
@@ -113,6 +120,7 @@ const ReportState = (props) => {
 
     const updateReport = async (reportId, reportDetail) => {
         try {
+            setLoading(true);
             const res = await databases.updateDocument(
                 process.env.NEXT_PUBLIC_DATABASE_ID,
                 process.env.NEXT_PUBLIC_REPORTS_COLLECTION_ID,
@@ -126,8 +134,10 @@ const ReportState = (props) => {
             if (res.$id) {
                 toast.success("Report updated successfully");
             }
+            setLoading(false);
         } catch (error) {
             toast.error(error.message);
+            setLoading(false);
         }
     }
 
@@ -135,7 +145,7 @@ const ReportState = (props) => {
         <>
             <Toaster />
             <ReportContext.Provider value={{
-                fileUpload, documentUpload, getReports, reportData, deleteReport, updateReport, setReportData, copyReportData
+                fileUpload, documentUpload, getReports, reportData, deleteReport, updateReport, setReportData, copyReportData, loading
             }}>
                 {props.children}
             </ReportContext.Provider>

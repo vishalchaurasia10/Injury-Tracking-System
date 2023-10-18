@@ -5,6 +5,7 @@ import { AiFillEdit, AiFillLeftCircle, AiFillRightCircle } from 'react-icons/ai'
 import { BsFillCloudUploadFill } from 'react-icons/bs';
 import Annotate from './Annotate';
 import reportContext from '@/context/report/reportContext';
+import { toast, Toaster } from 'react-hot-toast';
 
 const Uploads = () => {
     const [reportDetails, setReportDetails] = useState({
@@ -17,7 +18,7 @@ const Uploads = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [showAnnotation, setShowAnnotation] = useState(false);
     const [annotations, setAnnotations] = useState([]); // Store annotations for all images
-    const { documentUpload } = useContext(reportContext)
+    const { documentUpload, loading } = useContext(reportContext)
 
     const handleFileUpload = (e) => {
         const selectedFiles = e.target.files;
@@ -75,6 +76,10 @@ const Uploads = () => {
     }
 
     const saveAnnotationsToDatabase = async () => {
+        if (!reportDetails.name || !reportDetails.dateTime) {
+            toast.error('Please fill all the fields')
+            return
+        }
         const response = await documentUpload(reportDetails)
         if (response === 'success') {
             setReportDetails({
@@ -95,6 +100,7 @@ const Uploads = () => {
 
     return (
         <>
+            <Toaster />
             <div className={`min-h-screen ${jost.className} relative pt-24 md:pt-24 pb-10 xl:pt-16 xl:pb-0 w-full flex items-center justify-center bg-cover bg-center bg-[url("https://img.freepik.com/premium-photo/hand-doctor-reassuring-her-female-patient_33855-13.jpg?w=1060")]`}>
                 {/* <div className='absolute h-full inset-0 bg-gradient-to-l from-transparent via-opacity-50 to-black'></div> */}
                 <div className="uploadContent relative z-20 w-full lg:mx-40 flex items-center justify-center space-x-8 px-2">
@@ -155,7 +161,8 @@ const Uploads = () => {
                                 onChange={handleChange}
                             />
                             <button className="btn btn-neutral" onClick={saveAnnotationsToDatabase}>
-                                Upload
+                                {loading && <span className="loading loading-spinner loading-md"></span>}
+                                <span>Upload</span>
                             </button>
                         </div>
                     </div>

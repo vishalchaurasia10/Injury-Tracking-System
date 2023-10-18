@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 
 const SignUp = () => {
     const [credentials, setCredentials] = useState({ email: '', password: '', name: '' })
-    const { signup, user } = useContext(authContext)
+    const { signup, user, loading, googleAuth } = useContext(authContext)
     const router = useRouter()
 
     const handleChange = (e) => {
@@ -31,7 +31,7 @@ const SignUp = () => {
     return (
         <div className='flex px-8 md:px-40 lg:px-0 py-10 md:py-16 lg:pt-12 lg:py-0 flex-col items-center justify-center space-y-4 lg:space-y-3 xl:space-y-4'>
             <h1 className='text-black text-4xl md:text-5xl font-bold md:pb-4 lg:pb-0 xl:pb-4 lg:py-2'>Create an account</h1>
-            <button className='btn btn-outline w-full lg:w-1/2 border-2 rounded-xl'>
+            <button onClick={googleAuth} className='btn btn-outline w-full lg:w-1/2 border-2 rounded-xl'>
                 <span className='text-2xl pb-1'>
                     <FcGoogle />
                 </span>
@@ -58,6 +58,7 @@ const SignUp = () => {
                 })}
             </div>
             <button onClick={handleSignup} className='btn btn-active btn-neutral bg-black text-white w-full lg:w-1/2 rounded-xl'>
+                {loading && <span className="loading loading-spinner loading-md"></span>}
                 <span>Create account</span>
             </button>
             <div className="alreadyText">

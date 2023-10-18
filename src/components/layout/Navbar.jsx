@@ -9,6 +9,7 @@ import { jost } from '@/utils/fonts';
 import authContext from '@/context/auth/authContext';
 import { FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
 import reportContext from '@/context/report/reportContext';
+import { useRouter } from 'next/router';
 
 const Navbar = () => {
 
@@ -18,10 +19,15 @@ const Navbar = () => {
     const [showSearch, setShowSearch] = useState(false)
     const { reportData, setReportData, copyReportData } = useContext(reportContext)
     const [searchQuery, setSearchQuery] = useState('');
+    const router = useRouter()
 
     const toggle = () => {
         setExpandState(!expandState)
     }
+
+    useEffect(() => {
+        setExpandState(false)
+    }, [router.pathname])
 
     const [isMobile, setIsMobile] = useState(false);
 
@@ -104,8 +110,7 @@ const Navbar = () => {
 
                     <ul className='center w-1/4 lg:w-1/3 flex lg:justify-center items-center'>
                         <li>
-                            <Link href='/' className='text-3xl font-bold text-black'>
-                                {/* <Image className='' src='/images/logo.png' height={200} width={200} alt='logo' /> */}
+                            <Link href='/' className={`${showSearch ? 'hidden md:block' : ''} text-3xl font-bold text-black`}>
                                 ReportEase
                             </Link>
                         </li>
@@ -113,13 +118,12 @@ const Navbar = () => {
 
                     <ul className='right w-3/4 lg:w-1/3 flex items-center justify-end md:space-x-2 lg:space-x-3'>
                         <li className={`text-2xl mr-2 flex items-center justify-center relative`}>
-                            {showSearch &&
-                                <input
-                                    className='absolute right-10 border-2 px-3 text-base py-1 border-black rounded-2xl placeholder:text-black' type="text"
-                                    value={searchQuery}
-                                    onChange={(e) => { setSearchQuery(e.target.value) }}
-                                    placeholder='Start searching' />}
-                            <LuSearch onClick={toggleSearch} />
+                            <input
+                                className={`absolute ${showSearch ? 'scale-100' : 'scale-0'} transition-all duration-300 right-10 border-2 px-3 text-base py-1 border-black rounded-2xl placeholder:text-black`} type="text"
+                                value={searchQuery}
+                                onChange={(e) => { setSearchQuery(e.target.value) }}
+                                placeholder='Start searching' />
+                            <LuSearch className='cursor-pointer' onClick={toggleSearch} />
                         </li>
                         {user !== null ?
                             <li className='mr-2 cursor-pointer'>

@@ -4,7 +4,7 @@ import authContext from '@/context/auth/authContext';
 
 const ForgotPassword = () => {
     const [credentials, setCredentials] = useState({ email: '', password: '', confirmPassword: '' })
-    const { sendRecoveryLink, resetPassword } = useContext(authContext)
+    const { sendRecoveryLink, resetPassword, loading } = useContext(authContext)
     const router = useRouter()
     const userId = router.query.userId
     const secret = router.query.secret
@@ -46,7 +46,10 @@ const ForgotPassword = () => {
                         {userId ?
                             <button onClick={handleResetPassword} className='btn btn-active btn-neutral bg-black text-white w-full rounded-xl'>Reset Password</button>
                             :
-                            <button onClick={handleSendLink} className='btn btn-active btn-neutral bg-black text-white w-full rounded-xl'>Send Link</button>}
+                            <button onClick={handleSendLink} className='btn btn-active btn-neutral bg-black text-white w-full rounded-xl'>
+                                {loading && <span className="loading loading-spinner loading-md"></span>}
+                                <span>Send Link</span>
+                            </button>}
                     </form>
                 </div>
 

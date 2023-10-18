@@ -19,7 +19,7 @@ const Analytics = () => {
                 <title>Analytics | ReportEase</title>
             </Head>
             <div className={`${jost.className} h-screen flex items-center justify-center text-7xl`}>
-                {user && <h1>Coming soon...</h1>}
+                {user && <h1 className='text-center'>Coming soon...</h1>}
             </div>
         </>
     )

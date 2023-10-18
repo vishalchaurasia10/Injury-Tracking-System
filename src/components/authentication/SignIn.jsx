@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 
 const SignIn = () => {
     const [credentials, setCredentials] = useState({ email: '', password: '' })
-    const { signin, googleAuth, user } = useContext(authContext)
+    const { signin, googleAuth, user, loading } = useContext(authContext)
     const router = useRouter()
 
     const handleChange = (e) => {
@@ -63,6 +63,7 @@ const SignIn = () => {
                 </div>
             </div>
             <button onClick={handleSignin} className='btn btn-active btn-neutral bg-black text-white w-full lg:w-1/2 rounded-xl'>
+                {loading && <span className="loading loading-spinner loading-md"></span>}
                 <span>Log in</span>
             </button>
             <div className="alreadyText">

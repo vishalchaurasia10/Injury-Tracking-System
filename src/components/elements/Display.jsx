@@ -9,7 +9,7 @@ const Display = ({ reportData, toggleDisplay, edit, setEdit }) => {
     const [description, setDescription] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [localReportData, setLocalReportData] = useState({ ...reportData })
-    const { updateReport } = useContext(reportContext)
+    const { updateReport, loading } = useContext(reportContext)
 
     // Parse the description elements and update the state when reportData changes
     useEffect(() => {
@@ -186,7 +186,10 @@ const Display = ({ reportData, toggleDisplay, edit, setEdit }) => {
                                 </div>
                             ))}
                         </div>
-                        {edit && <button onClick={handleUpdate} className="btn btn-neutral">Update</button>}
+                        {edit && <button onClick={handleUpdate} className="btn btn-neutral">
+                            {loading && <span className="loading loading-spinner loading-md"></span>}
+                            <span>Update</span>
+                        </button>}
                     </div>
                     <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
                         <div className="modal-box">
