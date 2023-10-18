@@ -1,5 +1,6 @@
 import Uploads from "@/components/elements/Uploads";
 import authContext from "@/context/auth/authContext";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 
@@ -14,8 +15,13 @@ export default function Home() {
   }, [user]);
 
   return (
-    <div>
-      {user && <Uploads />}
-    </div>
+    <>
+      <Head>
+        <title>Home | ReportEase</title>
+      </Head>
+      <div>
+        {user && <Uploads />}
+      </div>
+    </>
   );
 }

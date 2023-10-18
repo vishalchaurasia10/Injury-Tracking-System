@@ -2,6 +2,7 @@ import { jost } from '@/utils/fonts'
 import React, { useContext, useEffect } from 'react'
 import authContext from '@/context/auth/authContext'
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 const Analytics = () => {
     const { user } = useContext(authContext);
@@ -13,9 +14,14 @@ const Analytics = () => {
     }, [user]);
 
     return (
-        <div className={`${jost.className} h-screen flex items-center justify-center text-7xl`}>
-            {user && <h1>Coming soon...</h1>}
-        </div>
+        <>
+            <Head>
+                <title>Analytics | ReportEase</title>
+            </Head>
+            <div className={`${jost.className} h-screen flex items-center justify-center text-7xl`}>
+                {user && <h1>Coming soon...</h1>}
+            </div>
+        </>
     )
 }
 

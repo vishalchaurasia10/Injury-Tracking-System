@@ -95,7 +95,7 @@ const Display = ({ reportData, toggleDisplay, edit, setEdit }) => {
         <div className='absolute top-0 left-0 w-full flex flex-col lg:flex-row items-center justify-center bg-white z-30'>
             <AiFillCloseCircle
                 onClick={() => { setEdit(false); toggleDisplay(); }}
-                className='absolute top-16 right-2 lg:right-10 text-red-500 text-5xl z-40 hover:scale-110 transition-all duration-300 cursor-pointer'
+                className='absolute top-16 right-2 lg:top-24 lg:right-10 text-red-500 text-5xl z-40 hover:scale-110 transition-all duration-300 cursor-pointer'
             />
             {description.length &&
                 <>

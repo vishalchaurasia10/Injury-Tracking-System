@@ -20,7 +20,7 @@ const AuthState = (props) => {
             if (res.$id) {
                 toast.success('Account created successfully');
                 await account.createEmailSession(credentials.email, credentials.password);
-                sendVerificationLink(`http://localhost:3000/verification`);
+                sendVerificationLink(`${process.env.NEXT_PUBLIC_API_URL}/verification`);
             }
             return res.$id;
         } catch (error) {
@@ -108,7 +108,7 @@ const AuthState = (props) => {
 
     const googleAuth = async () => {
         try {
-            const res = await account.createOAuth2Session('google', 'https://report-ease.vercel.app/', 'https://report-ease.vercel.app/sign-in');
+            const res = await account.createOAuth2Session('google', process.env.NEXT_PUBLIC_API_URL, `${process.env.NEXT_PUBLIC_API_URL}/sign-in`);
             if (res) {
                 toast.success('Logged in successfully');
                 setUser({ name: res.name, email: res.email });

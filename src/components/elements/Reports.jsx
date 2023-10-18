@@ -47,7 +47,7 @@ const Reports = () => {
 
 
     return (
-        <div className={`mainWrapper relative overflow-x-hidden min-h-screen pb-10 w-full ${jost.className} ${reportData.length != 0 ? 'pt-16' : ''} px-2 lg:px-20`}>
+        <div className={`mainWrapper relative overflow-x-hidden overflow-y-hidden min-h-screen pb-10 w-full ${jost.className} ${reportData.length != 0 ? 'pt-16' : ''} px-2 lg:px-20`}>
             {reportData.length != 0 ?
                 <>
                     <div className="heading flex items-center justify-between px-2">

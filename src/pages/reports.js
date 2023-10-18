@@ -3,6 +3,7 @@ import React from 'react'
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import authContext from '@/context/auth/authContext';
+import Head from 'next/head';
 
 const ReportsPage = () => {
     const { user } = useContext(authContext);
@@ -15,9 +16,14 @@ const ReportsPage = () => {
     }, [user]);
 
     return (
-        <div>
-            {user && <Reports />}
-        </div>
+        <>
+            <Head>
+                <title>Reports | ReportEase</title>
+            </Head>
+            <div>
+                {user && <Reports />}
+            </div>
+        </>
     )
 }
 
