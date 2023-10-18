@@ -16,10 +16,6 @@ const Reports = () => {
     }, [])
 
     useEffect(() => {
-        console.log(reportData)
-    }, [reportData])
-
-    useEffect(() => {
         setSortedReports([...reportData]);
     }, [reportData]);
 
@@ -51,7 +47,7 @@ const Reports = () => {
 
 
     return (
-        <div className={`mainWrapper relative overflow-x-hidden min-h-screen w-full ${jost.className} ${reportData.length != 0 ? 'pt-16' : ''} px-2 lg:px-20`}>
+        <div className={`mainWrapper relative overflow-x-hidden min-h-screen pb-10 w-full ${jost.className} ${reportData.length != 0 ? 'pt-16' : ''} px-2 lg:px-20`}>
             {reportData.length != 0 ?
                 <>
                     <div className="heading flex items-center justify-between px-2">
@@ -66,13 +62,13 @@ const Reports = () => {
                             </ul>
                         </div>
                     </div>
-                    <div className="reports flex flex-col lg:flex-row space-y-4 lg:space-x-4 lg:space-y-0">
+                    <div className="reports flex flex-col flex-wrap lg:flex-row">
                         {sortedReports.map((report, index) => {
                             const isDisplayed = !!displayedReports[report.$id];
 
                             return (
                                 <>
-                                    <div key={index} className="card w-full lg:w-96 bg-base-100 shadow-xl">
+                                    <div key={index} className="card lg:mx-2 mb-4 w-full lg:w-96 bg-base-100 shadow-xl">
                                         <figure><img src="/images/coverImage.webp" alt="Shoes" /></figure>
                                         <div className="card-body">
                                             <p className='text-sm'>Update At: {(formatDateTime(report.$updatedAt)).date} | {(formatDateTime(report.$updatedAt)).time}</p>

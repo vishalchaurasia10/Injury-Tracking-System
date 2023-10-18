@@ -7,8 +7,8 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <AuthState>
-        <Navbar />
         <ReportState>
+          <Navbar />
           <Component {...pageProps} />
         </ReportState>
       </AuthState>

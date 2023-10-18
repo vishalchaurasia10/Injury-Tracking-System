@@ -8,12 +8,16 @@ import Sidebar from './Sidebar';
 import { jost } from '@/utils/fonts';
 import authContext from '@/context/auth/authContext';
 import { FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
+import reportContext from '@/context/report/reportContext';
 
 const Navbar = () => {
 
     const [expandState, setExpandState] = useState(false)
     const [userExpand, setUserExpand] = useState(false)
     const { checkLoggedIn, user, logout } = useContext(authContext)
+    const [showSearch, setShowSearch] = useState(false)
+    const { reportData, setReportData, copyReportData } = useContext(reportContext)
+    const [searchQuery, setSearchQuery] = useState('');
 
     const toggle = () => {
         setExpandState(!expandState)
@@ -36,12 +40,37 @@ const Navbar = () => {
     }, []);
 
     useEffect(() => {
-        checkLoggedIn()
-    }, [])
+        if (searchQuery === '') {
+            setReportData(copyReportData); // No search query, display all reports
+        } else {
+            // Filter reports based on the search query
+            const filteredReports = reportData.filter((report) => {
+                // Check if the report name or description includes the search query (case-insensitive)
+                const nameMatch = report.name && report.name.toLowerCase().includes(searchQuery.toLowerCase());
+                const descriptionMatch = report.description.some((item) => {
+                    try {
+                        const data = JSON.parse(item);
+                        if (Array.isArray(data)) {
+                            return data.some(
+                                (item) => item.description && item.description.toLowerCase().includes(searchQuery.toLowerCase())
+                            );
+                        }
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                    }
+                    return false;
+                });
+                return nameMatch || descriptionMatch;
+            });
+            setReportData(filteredReports);
+        }
+    }, [searchQuery]);
+
+
 
     useEffect(() => {
-        console.log(user)
-    }, [user])
+        checkLoggedIn()
+    }, [])
 
     const showUserDetails = () => {
         setUserExpand(!userExpand)
@@ -50,6 +79,10 @@ const Navbar = () => {
     const signOut = () => {
         logout()
         setUserExpand(false)
+    }
+
+    const toggleSearch = () => {
+        setShowSearch(!showSearch)
     }
 
     return (
@@ -79,12 +112,18 @@ const Navbar = () => {
                     </ul>
 
                     <ul className='right w-3/4 lg:w-1/3 flex items-center justify-end md:space-x-2 lg:space-x-3'>
-                        <li className={`text-2xl mr-2`}>
-                            <LuSearch />
+                        <li className={`text-2xl mr-2 flex items-center justify-center relative`}>
+                            {showSearch &&
+                                <input
+                                    className='absolute right-10 border-2 px-3 text-base py-1 border-black rounded-2xl placeholder:text-black' type="text"
+                                    value={searchQuery}
+                                    onChange={(e) => { setSearchQuery(e.target.value) }}
+                                    placeholder='Start searching' />}
+                            <LuSearch onClick={toggleSearch} />
                         </li>
                         {user !== null ?
-                            <li onClick={showUserDetails} className='mr-2 cursor-pointer'>
-                                <FaUserCircle className='text-3xl' />
+                            <li className='mr-2 cursor-pointer'>
+                                <FaUserCircle onClick={showUserDetails} className='text-3xl' />
                             </li> :
                             <li className='mr-2'>
                                 <Button text='Sign Up' path='/sign-up' />

@@ -6,6 +6,7 @@ import { useState } from "react";
 const ReportState = (props) => {
 
     const [reportData, setReportData] = useState([]);
+    const [copyReportData, setCopyReportData] = useState([]);
 
     const client = new Client()
         .setEndpoint('https://cloud.appwrite.io/v1')
@@ -79,6 +80,7 @@ const ReportState = (props) => {
                 [Query.equal('userId', userId)]
             );
             setReportData(res.documents);
+            setCopyReportData(res.documents);
             return res.documents;
         } catch (error) {
             toast.error(error.message);
@@ -92,7 +94,6 @@ const ReportState = (props) => {
             imageUrls.map(async (imageUrl) => {
                 // Extract the file ID from the image URL
                 const fileId = imageUrl.split('files/')[1].split('/view')[0];
-                console.log(fileId)
                 await storage.deleteFile(process.env.NEXT_PUBLIC_BUCKET_ID, fileId);
             })
             const res = await databases.deleteDocument(
@@ -134,7 +135,7 @@ const ReportState = (props) => {
         <>
             <Toaster />
             <ReportContext.Provider value={{
-                fileUpload, documentUpload, getReports, reportData, deleteReport, updateReport
+                fileUpload, documentUpload, getReports, reportData, deleteReport, updateReport, setReportData, copyReportData
             }}>
                 {props.children}
             </ReportContext.Provider>

@@ -1,13 +1,13 @@
 import { signupFormFields } from '@/utils/constants'
 import Link from 'next/link'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import authContext from '@/context/auth/authContext'
 import { useRouter } from 'next/router'
 
 const SignUp = () => {
     const [credentials, setCredentials] = useState({ email: '', password: '', name: '' })
-    const { signup } = useContext(authContext)
+    const { signup, user } = useContext(authContext)
     const router = useRouter()
 
     const handleChange = (e) => {
@@ -21,6 +21,12 @@ const SignUp = () => {
             router.push('/sign-in')
         }
     }
+
+    useEffect(() => {
+        if (user) {
+            router.push('/')
+        }
+    }, [user])
 
     return (
         <div className='flex px-8 md:px-40 lg:px-0 py-10 md:py-16 lg:pt-12 lg:py-0 flex-col items-center justify-center space-y-4 lg:space-y-3 xl:space-y-4'>
