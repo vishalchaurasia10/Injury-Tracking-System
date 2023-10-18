@@ -108,7 +108,7 @@ const AuthState = (props) => {
 
     const googleAuth = async () => {
         try {
-            const res = await account.createOAuth2Session('google', 'http://localhost:3000/', 'http://localhost:3000/sign-in');
+            const res = await account.createOAuth2Session('google', 'https://report-ease.vercel.app/', 'https://report-ease.vercel.app/sign-in');
             if (res) {
                 toast.success('Logged in successfully');
                 setUser({ name: res.name, email: res.email });
