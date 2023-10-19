@@ -123,7 +123,9 @@ const Navbar = () => {
                                 value={searchQuery}
                                 onChange={(e) => { setSearchQuery(e.target.value) }}
                                 placeholder='Start searching' />
-                            <LuSearch className='cursor-pointer' onClick={toggleSearch} />
+                            <LuSearch
+                                className='cursor-pointer'
+                                onClick={() => { toggleSearch(); if (router.pathname !== '/reports') { router.push('/reports') } }} />
                         </li>
                         {user !== null ?
                             <li className='mr-2 cursor-pointer'>

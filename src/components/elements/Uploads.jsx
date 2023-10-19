@@ -134,7 +134,7 @@ const Uploads = () => {
                                 </div>
                             )}
                             {imagePreviews.length > 0 &&
-                                <button onClick={toggleAnnotation} className="btn btn-active rounded-full shadow-2xl shadow-black absolute bottom-6">
+                                <button title='Annotate' onClick={toggleAnnotation} className="btn btn-active rounded-full shadow-2xl animate-bounce shadow-black absolute bottom-6 border-2 border-black">
                                     <AiFillEdit className='text-2xl' />
                                 </button>}
                         </div>
