@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
+import { FaTrashAlt } from 'react-icons/fa';
 
 const Annotate = ({ imageUrl, toggleAnnotation, annotations, onAnnotationsChange }) => {
     const [rings, setRings] = useState(annotations); // Initialize rings with the provided annotations
@@ -19,6 +20,14 @@ const Annotate = ({ imageUrl, toggleAnnotation, annotations, onAnnotationsChange
     const handleHeightChange = (e) => {
         setImageHeight(Number(e.target.value));
     };
+
+    const deleteRing = (index) => {
+        const updatedRings = [...rings];
+        updatedRings.splice(index, 1);
+        setRings(updatedRings);
+        onAnnotationsChange(updatedRings);
+    };
+
 
     return (
         <>
@@ -45,6 +54,10 @@ const Annotate = ({ imageUrl, toggleAnnotation, annotations, onAnnotationsChange
                                     onAnnotationsChange(updatedAnnotations);
                                 }}
                             ></textarea>
+                            <FaTrashAlt
+                                title='Delete'
+                                onClick={() => deleteRing(index)}
+                                className='rounded-lg bg-gray-300 p-2 text-4xl text-red-500 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-black' />
                         </div>
                     ))}
                 </div>
@@ -85,8 +98,8 @@ const Annotate = ({ imageUrl, toggleAnnotation, annotations, onAnnotationsChange
                                             className='font-extrabold'
                                             x={ring.x + 2 + '%'}
                                             y={ring.y + 4 + '%'}
-                                            fontSize="10"
-                                            fill="red"
+                                            fontSize="12"
+                                            fill="yellow"
                                         >
                                             {index + 1}
                                         </text>
