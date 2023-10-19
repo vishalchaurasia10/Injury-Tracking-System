@@ -131,6 +131,7 @@ const AuthState = (props) => {
     const googleAuth = async () => {
         try {
             setLoading(true);
+            const account = new Account(client);
             const res = await account.createOAuth2Session('google', process.env.NEXT_PUBLIC_API_URL, `${process.env.NEXT_PUBLIC_API_URL}/sign-in`);
             if (res) {
                 toast.success('Logged in successfully');

@@ -76,7 +76,7 @@ const Uploads = () => {
     }
 
     const saveAnnotationsToDatabase = async () => {
-        if (!reportDetails.name || !reportDetails.dateTime) {
+        if (!reportDetails.name || !reportDetails.dateTime || !reportDetails.file) {
             toast.error('Please fill all the fields')
             return
         }
